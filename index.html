@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpencerXD - Personal Website</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: red;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .digital-name {
+            font-size: 36px;
+            font-weight: bold;
+            color: #F00;
+            margin-top: 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 5px #F00, 0 0 10px #F00, 0 0 15px #F00;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .content {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px red, 0 0 20px red;
+            width: 80%;
+            max-width: 500px;
+            margin-top: 20px;
+            animation: contentFadeIn 3s ease-in-out;
+        }
+
+        @keyframes contentFadeIn {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .content h2 {
+            color: #0F0;
+            margin: 10px 0;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .content p {
+            color: #FFF;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .contact {
+            margin-top: 15px;
+        }
+
+        .contact a {
+            color: #0F0;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .contact a:hover {
+            color: #FF0;
+        }
+
+        .anonymous-slogan {
+            position: absolute;
+            top: calc(85% + 5px);
+            text-align: center;
+            width: 100%;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #FFF, 0 0 20px #FFF;
+            animation: glitch 1.5s infinite, pulse 2s infinite alternate;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 2px 2px 0 red, -2px -2px 0 green, 2px -2px 0 blue;
+                transform: translate(2px, 2px);
+            }
+            20% {
+                text-shadow: -2px -2px 0 red, 2px 2px 0 green, -2px 2px 0 blue;
+                transform: translate(-2px, -2px);
+            }
+            40% {
+                text-shadow: 2px -2px 0 red, -2px 2px 0 green, 2px 2px 0 blue;
+                transform: translate(2px, -2px);
+            }
+            60% {
+                text-shadow: -2px 2px 0 red, 2px -2px 0 green, -2px -2px 0 blue;
+                transform: translate(-2px, 2px);
+            }
+            80% {
+                text-shadow: 2px 2px 0 red, -2px -2px 0 green, 2px -2px 0 blue;
+                transform: translate(2px, 2px);
+            }
+            100% {
+                text-shadow: -2px -2px 0 red, 2px 2px 0 green, -2px 2px 0 blue;
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .digital-name {
+                font-size: 30px;
+            }
+            .content {
+                width: 90%;
+                margin-top: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .digital-name {
+                font-size: 24px;
+            }
+            .content {
+                width: 90%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="digital-name">SpencerXD</div>
+    <div class="content">
+        <h2>About Me</h2>
+        <p>I am SpencerXD, a passionate hacker and cybersecurity enthusiast.</p>
+        
+        <h2>Certifications</h2>
+        <p>- Certified Ethical Hacker (CEH)</p>
+        <p>- OSCP (Offensive Security Certified Professional)</p>
+
+        <h2>Goals</h2>
+        <p>- Master full-stack development</p>
+        <p>- Black Hat Hacking</p>
+
+        <h2>Achievements</h2>
+        <p>- Tech Expert, BCNC, Telegram King</p>
+
+        <div class="contact">
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:spencerxd@example.com">spencerxd@example.com</a></p>
+            <p>Telegram: <a href="https://t.me/spencerxd">@spencerxd</a></p>
+        </div>
+    </div>
+    <div class="anonymous-slogan">
+        We are Anonymous. We are Legion. We do not forgive.<br>
+        We do not forget. Expect us.
+    </div>
+    <script>
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const binaryChars = "01";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(0);
+
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgb(" + Math.floor(Math.random() * 255) + ",255," + Math.floor(Math.random() * 255) + ")";
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = binaryChars[Math.floor(Math.random() * binaryChars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 50);
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
